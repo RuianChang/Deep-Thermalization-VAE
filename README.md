@@ -21,14 +21,14 @@ Measuring B in the computational (Z) basis produces a 10-bit record $z_B$ and a 
 
 A Transformer encoder compresses each bath measurement record into a Gaussian latent distribution:
 
-$$
+```math
 q_\phi(h \mid z_B)
 =
 \mathcal{N}\left(
 \mu_\phi(z_B),
 \mathrm{diag}\left(\sigma_\phi^2(z_B)\right)
 \right).
-$$
+```
 
 Here, the encoder learns the latent mean and variance, while a conditional decoder uses the latent representation and the chosen Pauli measurement bases to predict subsystem outcomes:
 
