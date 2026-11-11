@@ -16,22 +16,33 @@ We study **12 qubits**, divided into a small subsystem **A (2 qubits)** and an e
 
 Measuring B in the computational (Z) basis produces a 10-bit record $z_B$ and a conditional state on A. Conservation of charge means $Q_A + Q_B=6$, with possible bath charges $Q_B=4,5,6$. We ask whether a compact representation of $z_B$ retains enough information to predict measurements of A in different Pauli bases.
 
+
 ## 🧠 Model
 
-A Transformer encoder maps each bath bit string to a Gaussian latent distribution:
+A Transformer encoder compresses each bath measurement record into a Gaussian latent distribution:
 
 $$
-q_\phi(h\mid z_B)=\mathcal N\!\left(\mu_\phi(z_B),\operatorname{diag}\sigma_\phi^2(z_B)\right).
+q_\phi(h \mid z_B)
+=
+\mathcal{N}\left(
+\mu_\phi(z_B),
+\mathrm{diag}\left(\sigma_\phi^2(z_B)\right)
+\right).
 $$
 
-Given a latent sample $h$ and local Pauli measurement bases $U_A\in\{X,Y,Z\}^{\otimes 2}$, a conditional decoder predicts the four joint outcomes $z_A\in\{00,01,10,11\}$:
+Here, the encoder learns the latent mean and variance, while a conditional decoder uses the latent representation and the chosen Pauli measurement bases to predict subsystem outcomes:
 
 $$
-z_B\ \xrightarrow{\text{encoder}}\ h,
-\qquad (h,U_A)\ \xrightarrow{\text{decoder}}\ p_\theta(z_A\mid U_A,h).
+z_B \xrightarrow{\text{encoder}} h,
+\qquad
+(h,U_A) \xrightarrow{\text{decoder}}
+p_\theta(z_A \mid U_A,h).
 $$
 
-**The VIB is trained without $Q_B$ labels.** Charge labels are computed from the input bit strings only for evaluation with a post-training probe and visualization.
+For our two-qubit subsystem, the decoder outputs probabilities for four possible measurement outcomes: 00, 01, 10, and 11.
+
+**Importantly, the model is trained without charge labels.** The bath charge is used only after training to evaluate whether the latent representation has learned physically meaningful information.
+
 
 ## ⚙️ Data generation and computation
 
