@@ -47,13 +47,21 @@ The training code groups the four A-side measurements belonging to the same `out
 
 For bath draw $j$ with $R_A$ subsystem measurements, the objective is
 
-$$
-\mathcal L_j =
-\mathbb E_{h\sim q_\phi(h\mid z_{B,j})}
-\left[-\frac{1}{R_A}\sum_{r=1}^{R_A}
-\log p_\theta(z_{A,jr}\mid U_{A,jr},h)\right]
-+\beta\,D_{\mathrm{KL}}\!\left(q_\phi(h\mid z_{B,j})\,\|\,\mathcal N(0,I)\right).
-$$
+```math
+\mathcal{L}_j =
+\mathbb{E}_{h \sim q_\phi(h\mid z_{B,j})}
+\left[
+-\frac{1}{R_A}
+\sum_{r=1}^{R_A}
+\log p_\theta(z_{A,jr}\mid U_{A,jr},h)
+\right]
++
+\beta D_{\mathrm{KL}}
+\left(
+q_\phi(h\mid z_{B,j})
+\| \mathcal{N}(0,I)
+\right).
+```
 
 The reconstruction term rewards **conditional measurement predictions**; the KL term limits information retained about the bath record. The KL penalty is counted **once per bath draw**, not once per A-side shadow.
 
